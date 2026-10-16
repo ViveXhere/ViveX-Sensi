@@ -1,1374 +1,770 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080000">
+<title>DEADLY VIVEX | FF SENSI</title>
 
-<title>DEADLY VIVEX</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
-
-
-:root{
---red:#ff0000;
+:root {
+  --red: #ff0000;
+  --bg: #050000;
 }
 
-
-*{
-box-sizing:border-box;
-font-family:'Orbitron',sans-serif;
-text-transform:uppercase;
+* {
+  box-sizing: border-box;
+  font-family: 'Orbitron', sans-serif;
+  text-transform: uppercase;
 }
 
-
-
-body{
-
-margin:0;
-
-height:100dvh;
-
-background:
-radial-gradient(circle,#180000,#000 65%);
-
-color:white;
-
-overflow:hidden;
-
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: radial-gradient(circle, #180000, #000 65%);
+  color: white;
+  overflow: hidden;
 }
 
-
-
-canvas{
-
-position:fixed;
-
-inset:0;
-
-z-index:-1;
-
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
 }
 
-
-
-/* CENTER SYSTEM */
-
-.page{
-display:none;
-width:100%;
-height:100dvh;
-
-align-items:center;
-justify-content:center;
-
-flex-direction:column;
-
-gap:12px;
-
-padding:10px;
-
-text-align:center;
-
-overflow-y:auto;
+.page {
+  display: none;
+  width: 100%;
+  height: 100dvh;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px 12px;
+  padding-bottom: 35px;
+  text-align: center;
+  overflow-y: auto;
+  scrollbar-color: #ff0000 #100000;
 }
 
-
-.active{
-display:flex;
+.page.active {
+  display: flex;
 }
 
-
-/* LOGO */
-
-
-.logo{
-
-font-size:clamp(34px,8vw,65px);
-
-font-weight:900;
-
-color:red;
-
-letter-spacing:5px;
-
-text-shadow:
-
-0 0 10px red,
-
-0 0 40px red,
-
-0 0 80px red;
-
-
-animation:glitch 1s infinite;
-
+#home {
+  justify-content: center;
 }
 
-
-
-@keyframes glitch{
-
-50%{
-
-transform:translateX(3px);
-
+.logo {
+  font-size: clamp(30px, 8vw, 65px);
+  font-weight: 900;
+  color: red;
+  letter-spacing: 3px;
+  text-shadow: 0 0 10px red, 0 0 40px red, 0 0 80px red;
+  animation: glitch 1s infinite;
 }
 
+@keyframes glitch {
+  50% { transform: translateX(2px); }
 }
 
-
-
-
-
-.sub{
-
-font-size:clamp(22px,6vw,40px);
-
-letter-spacing:10px;
-
-text-shadow:0 0 30px red;
-
+.sub {
+  font-size: clamp(22px, 6vw, 40px);
+  letter-spacing: 8px;
+  text-shadow: 0 0 30px red;
 }
 
-
-
-
-
-button{
-
-background:#ff0000;
-
-color:white;
-
-border:1px solid white;
-
-padding:12px 35px;
-
-border-radius:14px;
-
-font-weight:bold;
-
-font-size:16px;
-
-box-shadow:
-
-0 0 25px red;
-
+button {
+  background: #ff0000;
+  color: white;
+  border: 1px solid white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: 0 0 20px #ff0000;
+  cursor: pointer;
+  max-width: 100%;
 }
 
-
-
-
-.card{
-
-width:min(94%,500px);
-
-background:
-
-linear-gradient(
-
-145deg,
-
-#250000,
-
-#000
-
-);
-
-
-border:2px solid red;
-
-border-radius:20px;
-
-padding:18px;
-
-
-box-shadow:
-
-0 0 25px red,
-
-inset 0 0 20px #330000;
-
-
+button:active {
+  transform: scale(.96);
 }
 
-
-
-/* INPUT */
-
-
-input{
-
-width:100%;
-
-background:black;
-
-border:2px solid red;
-
-border-radius:12px;
-
-padding:12px;
-
-color:white;
-
-font-size:22px;
-
-text-align:center;
-
+.card {
+  width: min(94%, 500px);
+  flex-shrink: 0;
+  background: linear-gradient(145deg, #250000, #000);
+  border: 2px solid red;
+  border-radius: 20px;
+  padding: 18px;
+  box-shadow: 0 0 25px red, inset 0 0 20px #330000;
 }
 
-
-
-
-
-/* KEYBOARD */
-
-
-.keyboard{
-
-display:flex;
-
-flex-direction:column;
-
-gap:6px;
-
+.info {
+  font-size: 11px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
-
-
-.row{
-
-display:flex;
-
-justify-content:center;
-
-gap:4px;
-
+.google-login-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
 }
 
-
-
-.key{
-
-width:clamp(26px,8vw,35px);
-
-height:clamp(26px,8vw,35px);
-
-background:red;
-
-color:black;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-border-radius:7px;
-
-font-size:13px;
-
-font-weight:bold;
-
-box-shadow:0 0 12px red;
-
+#googleButton {
+  min-height: 44px;
+  max-width: 100%;
 }
 
-
-
-
-
-.delete{
-
-background:black;
-
-color:white;
-
-border:2px solid red;
-
+#googleStatus {
+  font-size: 10px;
+  line-height: 1.6;
+  color: white;
+  overflow-wrap: anywhere;
 }
 
-
-
-
-
-/* SENSI */
-
-
-.item{
-
-display:flex;
-
-align-items:center;
-
-gap:8px;
-
-margin:18px 0;
-
-font-size:13px;
-
+.google-note {
+  font-family: Arial, sans-serif;
+  text-transform: none;
+  color: #aaa;
+  font-size: 11px;
+  line-height: 1.6;
 }
 
-
-.bar{
-
-flex:1;
-
-height:12px;
-
-background:#111;
-
-border-radius:20px;
-
-overflow:hidden;
-
-border:1px solid red;
-
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0;
+  font-size: 10px;
+  text-align: left;
 }
 
-
-
-.fill{
-
-height:100%;
-
-background:red;
-
-box-shadow:0 0 20px red;
-
+.bar {
+  flex: 1;
+  min-width: 30px;
+  height: 12px;
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid red;
 }
 
-
-
-
-
-.info{
-
-font-size:12px;
-
-line-height:1.6;
-
+.fill {
+  height: 100%;
+  background: red;
+  box-shadow: 0 0 20px red;
 }
 
-
-
-
-/* PHONE */
-
-
-.phone{
-
-width:min(75vw,320px);
-
-aspect-ratio:2/1;
-
-border:3px solid red;
-
-border-radius:30px;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-box-shadow:0 0 35px red;
-
+.phone {
+  width: min(75vw, 320px);
+  aspect-ratio: 2 / 1;
+  border: 3px solid red;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 35px red;
 }
 
-
-.arrow{
-
-font-size:80px;
-
-color:red;
-
+.arrow {
+  font-size: 70px;
+  color: red;
 }
 
-
-
-@media(max-height:600px){
-
-.page{
-
-gap:8px;
-
+.rotate {
+  font-size: 10px;
 }
 
-.card{
-
-padding:12px;
-
+.btn-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
 }
 
+.red {
+  color: red;
 }
 
-
-
-
-/* GOOGLE LOGIN */
-.google-login-wrap{width:min(94%,500px);display:flex;flex-direction:column;align-items:center;gap:10px}
-#googleStatus{font-size:11px;line-height:1.5;color:#fff;overflow-wrap:anywhere}
-.google-note{font-size:10px;line-height:1.5;color:#bbb;text-transform:none}
-
+@media (max-height: 600px) {
+  .page { gap: 8px; padding-top: 12px; }
+  .card { padding: 12px; }
+  .logo { font-size: 30px; }
+}
 </style>
-
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-
 
 <body>
 
-
 <canvas id="bg"></canvas>
 
-
-
-
 <!-- HOME -->
-
 <div class="page active" id="home">
-  
+  <div class="logo">DEADLY VIVEX</div>
+  <div class="sub">FF SENSI</div>
 
-<div class="logo">
-DEADLY VIVEX
+  <button onclick="showLogin()">LOGIN</button>
+
+  <div class="card info">
+    <p class="red">NOTE: CHECK ALL THE SETTINGS BEFORE APPLYING</p>
+  </div>
 </div>
 
-<div class="sub">
-FF SENSI
-</div>
-
- 
-
-<button onclick="showLogin()">
-LOGIN
-</button>
-
-
-<div class="card info">
-
- <p style="color: red;">NOTE: CHECK ALL THE SETTINGS BEFORE APPLYING</p> 
-
-</div>
-
-</div>
-
-
-
-
-
-<!-- LOGIN -->
-
+<!-- GOOGLE LOGIN ONLY -->
 <div class="page" id="login">
-  
-<p style="color: red;">GET PASSWORD ON INSTAGRAM @VIVEX.FX</p> 
+  <div class="logo">DEADLY VIVEX</div>
+  <div class="sub">FF SENSI</div>
 
-<div class="card">
+  <div class="card">
+    <p class="red">CONTINUE WITH GOOGLE</p>
 
-<input id="password" placeholder="PASSWORD" readonly>
+    <div class="google-login-wrap">
+      <div id="googleButton"></div>
+      <div id="googleStatus" role="status" aria-live="polite"></div>
+      <div class="google-note">
+        Your login will be remembered on this browser.
+      </div>
+    </div>
+  </div>
 
+  <button onclick="backHome()">BACK</button>
 </div>
 
-
-
-<div class="keyboard">
-
-
-<div class="row">
-<div class="key">1</div>
-<div class="key">2</div>
-<div class="key">3</div>
-<div class="key">4</div>
-<div class="key">5</div>
-<div class="key">6</div>
-<div class="key">7</div>
-<div class="key">8</div>
-<div class="key">9</div>
-</div>
-
-
-
-<div class="row">
-<div class="key">Q</div>
-<div class="key">W</div>
-<div class="key">E</div>
-<div class="key">R</div>
-<div class="key">T</div>
-<div class="key">Y</div>
-<div class="key">U</div>
-<div class="key">I</div>
-<div class="key">O</div>
-<div class="key">P</div>
-</div>
-
-
-
-<div class="row">
-<div class="key">A</div>
-<div class="key">S</div>
-<div class="key">D</div>
-<div class="key">F</div>
-<div class="key">G</div>
-<div class="key">H</div>
-<div class="key">J</div>
-<div class="key">K</div>
-<div class="key">L</div>
-</div>
-
-
-
-<div class="row">
-<div class="key">Z</div>
-<div class="key">X</div>
-<div class="key">C</div>
-<div class="key">V</div>
-<div class="key">B</div>
-<div class="key">N</div>
-<div class="key">M</div>
-</div>
-
-
-
-<button class="delete" onclick="remove()">
-DELETE
-</button>
-
-
-<button onclick="confirmPass()">
-CONFIRM
-</button>
-
-<div class="google-login-wrap">
-  <div style="color:#fff;font-size:12px;margin-top:8px;">OR CONTINUE WITH GOOGLE</div>
-  <div id="googleButton"></div>
-  <div id="googleStatus" role="status"></div>
-  <div class="google-note">Google sign-in setup required. Use your Web Client ID in the script.</div>
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-<!-- SENSI -->
-
+<!-- SENSITIVITY -->
 <div class="page" id="panel">
+  <div class="logo">SENSITIVITY</div>
 
-<div class="logo">
-SENSITIVITY
-</div>
+  <div class="card">
+    4GB, 6GB, 8GB, 12GB
 
-<div class="card">
-  
-  4GB, 6GB, 8GB, 12GB
+    <div class="item">
+      GENERAL
+      <div class="bar"><div class="fill" style="width:77%"></div></div>
+      154
+    </div>
 
+    <div class="item">
+      REDDOT
+      <div class="bar"><div class="fill" style="width:33%"></div></div>
+      67
+    </div>
 
-<div class="item">
+    <div class="item">
+      2X SCOPE
+      <div class="bar"><div class="fill" style="width:96%"></div></div>
+      193
+    </div>
 
-GENERAL
+    <div class="item">
+      4X SCOPE
+      <div class="bar"><div class="fill" style="width:98%"></div></div>
+      197
+    </div>
 
-<div class="bar">
-<div class="fill" style="width:77%"></div>
-</div>
+    <div class="info">
+      IF AIM STUCK AT ENEMY'S BODY
+      <p class="red">[ GENERAL +5... ]</p>
 
-154
-
-</div>
-
-
-
-<div class="item">
-
-REDDOT
-
-<div class="bar">
-<div class="fill" style="width:33%"></div>
-</div>
-
-67
-
-</div>
-
-
-
-<div class="item">
-
-2X SCOPE
-
-<div class="bar">
-<div class="fill" style="width:96%"></div>
-</div>
-
-193
-
-</div>
-
-
-
-
-<div class="item">
-
-4X SCOPE
-
-<div class="bar">
-<div class="fill" style="width:98%"></div>
-</div>
-
-197
-
-</div>
-
-
-<div class="info">
-  
-  IF AIM STUCK AT ENEMY'S BODY— 
-  
-  <br>
-  
-   <p style="color: red;">[ GENERAL +5... ]</p>
-  
-  
-  IF AIM GOES ABOVE ENEMY'S HEAD— 
-  
-  <br>
-  
-   <p style="color: red;">[ GENERAL -5... ]</p>
-  
+      IF AIM GOES ABOVE ENEMY'S HEAD
+      <p class="red">[ GENERAL -5... ]</p>
+    </div>
   </div>
-  
+
+  <div class="card">
+    1GB, 2GB, 3GB
+
+    <div class="item">
+      GENERAL
+      <div class="bar"><div class="fill" style="width:100%"></div></div>
+      200
+    </div>
+
+    <div class="item">
+      REDDOT
+      <div class="bar"><div class="fill" style="width:75%"></div></div>
+      150
+    </div>
+
+    <div class="item">
+      2X SCOPE
+      <div class="bar"><div class="fill" style="width:100%"></div></div>
+      200
+    </div>
+
+    <div class="item">
+      4X SCOPE
+      <div class="bar"><div class="fill" style="width:100%"></div></div>
+      200
+    </div>
+
+    <div class="info red">
+      I PREFER THIS SENSITIVITY WITHOUT ANY CHANGES
+    </div>
   </div>
-  
 
-<div class="card">
-  
-  1GB, 2GB, 3GB
-
-<div class="item">
-
-GENERAL
-
-<div class="bar">
-<div class="fill" style="width:100%"></div>
+  <button onclick="openDPI()">NEXT</button>
 </div>
-
-200
-
-</div>
-
-
-
-<div class="item">
-
-REDDOT
-
-<div class="bar">
-<div class="fill" style="width:75%"></div>
-</div>
-
-150
-
-</div>
-
-
-
-<div class="item">
-
-2X SCOPE
-
-<div class="bar">
-<div class="fill" style="width:100%"></div>
-</div>
-
-200
-
-</div>
-
-
-
-
-<div class="item">
-
-4X SCOPE
-
-<div class="bar">
-<div class="fill" style="width:100%"></div>
-</div>
-
-200
-
-</div>
-
-<div class="info">
-  
- <p style="color: red;">I PREFER THIS SENSITIVITY WITHOUT ANY CHANGES</p>
-  
-  
-</div>
-
-</div>
-
-
-
-<button onclick="openDPI()">
-NEXT
-</button>
-
-
-</div>
-
-
-
-
-
-
 
 <!-- DPI -->
-
 <div class="page" id="dpi">
-  
-  <div class="logo">
-DPI & FIRE BUTTON SIZE
-</div>
-  
-  
+  <div class="logo">DPI & FIRE BUTTON SIZE</div>
+
   <div class="phone">
-    
-    <div class="rotate">
-      10-13 ROTATIONS
-    </div>
-    
-    
-    <div class="arrow">
-      ←
-    </div>
-    
+    <div class="rotate">10–13 ROTATIONS</div>
+    <div class="arrow">←</div>
   </div>
-  
-  
-  
+
   <div class="card">
-    
     DPI: 473
-    
-    <br>
-    
-  <div class="info">
-    
-    IF ROTATION IS LESS THAN 10 
-    
-    <p style="color: red;">[ DPI +10... ]</p>
-    
-    
-    IF ROTATION IS HIGHER THAN 13 
-    
-   <p style="color: red;">[ DPI -10... ]</p>
-   
-   </div>
-   
-   </div>
-   
-    <div class="card">
-   
-    FIRE BUTTON SIZE: 10-13%
-    
-   <div class="info">
-       
-    <p style="color: red;">FOR 1GB, 2GB, 3GB RAM: 43%</p>
-  
+    <div class="info">
+      IF ROTATION IS LESS THAN 10
+      <p class="red">[ DPI +10... ]</p>
+
+      IF ROTATION IS HIGHER THAN 13
+      <p class="red">[ DPI -10... ]</p>
+    </div>
   </div>
-  
+
+  <div class="card">
+    FIRE BUTTON SIZE: 10–13%
+    <div class="info red">FOR 1GB, 2GB, 3GB RAM: 43%</div>
   </div>
-  
-  
+
   <div class="card info">
-    
-    <p style="color: red;">DPI IS ONLY FOR PHONES 4GB RAM OR HIGHER</p>
-    
-    IF YOUR PHONE HAVE 1GB, 2GB OR 3GB RAM
-  
-  <br>
-  
-  SKIP DPI SETTING AND FULL ROTATION COUNT
-   
-    
+    <p class="red">DPI IS ONLY FOR PHONES 4GB RAM OR HIGHER</p>
+    IF YOUR PHONE HAS 1GB, 2GB OR 3GB RAM,
+    SKIP DPI SETTING AND FULL ROTATION COUNT.
   </div>
 
   <div class="btn-row">
-<button onclick="backPANEL()">BACK</button>    
-  <button onclick="openFIRE()">
-NEXT
-</button>
-
+    <button onclick="backPANEL()">BACK</button>
+    <button onclick="openFIRE()">NEXT</button>
   </div>
 </div>
 
-<!-- FIRE PAGE -->
-
+<!-- DRAG TECHNIQUES -->
 <div class="page" id="fire">
+  <div class="logo">DRAG TECHNIQUES</div>
 
-<div class="logo">
-DRAG TECHNIQUES 
-</div>
-
-<div class="card">
-
-
-DRAG SPEED
-
-<br><br>
-
-<div class="info">
-
-
-CLOSE RANGE: FAST DRAG
-
-<br>
-
-
-MID RANGE: MIDIUM DRAG
-
-<br>
-
-LONG RANGE: SLOW &amp; CONTROLLED DRAG
-
-</div>
-
-</div>
-
-<div class="card">
-
-DRAG STYLES 
-
-<br><br>
-
-<div class="info">
-
-STABLE OR LEFT-RIGHT WALKING ENEMY: 
-
-<br><br>
-
-<button onclick="openYT()">
-STRAIGHT DRAG TUTORIAL
-</button>
-
-<br><br>
-
-RUNNING OR LEFT-RIGHT MOVEMENT ENEMY: 
-
-<br><br>
-
-<button onclick="openYT()">
-ROTATION DRAG TUTORIAL
-</button>
-
-<button onclick="openYT()">
-VIV DRAG TUTORIAL
-</button>
-
-<br><br>
-
-CLOSE RANGE PACKED FIGHTS:
-
-<p style="color: red;">[ IN HOUSE OR GLOO WALLS ]</p>
-
-<button onclick="openYT()">
-SIDE DRAG TUTORIAL 
-</button>
-
-</div>
-
-</div>
-
-<div class="btn-row">
-  <button onclick="backDPI()">
-BACK
-</button>
-
-<button onclick="openHEADSHOT()">
-  NEXT</button>
-  
-</div>
-
-</div>
-
-<!-- HEADSHOT PAGE -->
-
-<div class="page" id="headshot">
-  
-<div class="logo">
-HEADSHOT TRICKS
-</div>
-  
   <div class="card">
-    
-    <div class="info">
-    
-    2X SCOPE HEADSHOT ( UMP & MAC10 ):
-    
+    DRAG SPEED
     <br><br>
-    
-    <button onclick="openYT()">
-2X JUMP HS TUTORIAL 
-</button>
-
-<br><br>
-
-SNIPER WITHOUT SCOPE HEADSHOT:
-
- <br><br>
-    
-    <button onclick="openYT()">
-SNIPER HS TUTORIAL 
-</button>
-
-</div>
-
+    <div class="info">
+      CLOSE RANGE: FAST DRAG
+      <br>
+      MID RANGE: MEDIUM DRAG
+      <br>
+      LONG RANGE: SLOW &amp; CONTROLLED DRAG
+    </div>
   </div>
-  
-  
-<div class="logo">
-MOVEMENT TRICKS
-</div>
-  
+
   <div class="card">
-    
+    DRAG STYLES
+    <br><br>
     <div class="info">
-    
-    TO CONFUSE THE ENEMY:
-    
-    <br><br>
-    
-    <button onclick="openYT()">
-ZIG ZAG TUTORIAL 
-</button>
+      STABLE OR LEFT-RIGHT WALKING ENEMY:
+      <br><br>
+      <button onclick="openYT()">STRAIGHT DRAG TUTORIAL</button>
 
-<br><br>
+      <br><br>
+      RUNNING OR LEFT-RIGHT MOVEMENT ENEMY:
+      <br><br>
+      <button onclick="openYT()">ROTATION DRAG TUTORIAL</button>
+      <button onclick="openYT()">VIV DRAG TUTORIAL</button>
 
-TO DODGE ENEMY ATTACKS:
+      <br><br>
+      CLOSE RANGE PACKED FIGHTS:
+      <p class="red">[ IN HOUSE OR GLOO WALLS ]</p>
+      <button onclick="openYT()">SIDE DRAG TUTORIAL</button>
+    </div>
+  </div>
 
- <br><br>
-    
-    <button onclick="openYT()">
-CROUCH LS RUN TUTORIAL 
-</button>
-
-<br><br>
-
-TO FORCE THE ENEMY OUT:
-
- <br><br>
-    
-    <button onclick="openYT()">
-FAKE RUSH TUTORIAL 
-</button>
-
-</div></div>
-  
-<div class="btn-row">
-  <button onclick="backFIRE()">
-BACK
-</button>
-
-<button onclick="openGLOO()">
-NEXT
-</button>
-
-</div>
+  <div class="btn-row">
+    <button onclick="backDPI()">BACK</button>
+    <button onclick="openHEADSHOT()">NEXT</button>
+  </div>
 </div>
 
+<!-- HEADSHOT -->
+<div class="page" id="headshot">
+  <div class="logo">HEADSHOT TRICKS</div>
 
-<!-- GLOO PAGE -->
+  <div class="card">
+    <div class="info">
+      2X SCOPE HEADSHOT (UMP &amp; MAC10):
+      <br><br>
+      <button onclick="openYT()">2X JUMP HS TUTORIAL</button>
 
+      <br><br>
+      SNIPER WITHOUT SCOPE HEADSHOT:
+      <br><br>
+      <button onclick="openYT()">SNIPER HS TUTORIAL</button>
+    </div>
+  </div>
+
+  <div class="logo">MOVEMENT TRICKS</div>
+
+  <div class="card">
+    <div class="info">
+      TO CONFUSE THE ENEMY:
+      <br><br>
+      <button onclick="openYT()">ZIG ZAG TUTORIAL</button>
+
+      <br><br>
+      TO DODGE ENEMY ATTACKS:
+      <br><br>
+      <button onclick="openYT()">CROUCH LS RUN TUTORIAL</button>
+
+      <br><br>
+      TO FORCE THE ENEMY OUT:
+      <br><br>
+      <button onclick="openYT()">FAKE RUSH TUTORIAL</button>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button onclick="backFIRE()">BACK</button>
+    <button onclick="openGLOO()">NEXT</button>
+  </div>
+</div>
+
+<!-- GLOO WALL -->
 <div class="page" id="gloo">
+  <div class="logo">GLOO WALL TRICKS</div>
 
-<div class="logo">
-GLOO WALL TRICKS
+  <div class="card">
+    <div class="info">
+      BRAZILIAN FREESTYLE GLOO WALL:
+      <br><br>
+      <button onclick="openYT()">GELO 1P ADVANCE TUTORIAL</button>
+
+      <br><br>
+      PVP FAST IMPRESSIVE GLOO WALL:
+      <br><br>
+      <button onclick="openYT()">SIT-UP GLOO TUTORIAL</button>
+      <button onclick="openYT()">360° GLOO TUTORIAL</button>
+      <button onclick="openYT()">TORNADO GLOO TUTORIAL</button>
+    </div>
+  </div>
+
+  <div class="logo">IMPORTANT</div>
+
+  <div class="card">
+    <div class="info">
+      THIS SENSITIVITY IS APPROXIMATELY 90% ACCURATE.
+      <br><br>
+      THE REMAINING 10% DEPENDS ON YOUR PRACTICE,
+      TIMING, AND CONSISTENCY.
+      <br><br>
+      NO SENSITIVITY WILL WORK IF YOU KEEP CHANGING
+      YOUR HUD OR SETTINGS.
+      <br><br>
+      APPLY THE RECOMMENDED SETTINGS, STICK WITH THEM,
+      AND PRACTICE REGULARLY FOR THE BEST RESULTS.
+      <br><br>
+      <button onclick="openYT()">BEST 3–4 FINGERS HUD</button>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button onclick="backHEADSHOT()">BACK</button>
+    <button onclick="openVIVEX()">NEXT</button>
+  </div>
 </div>
 
-<div class="card">
-  <div class="info">
-    
-    BRAZILIAN FREESTYLE GLOO WALL:
-    
-    <br><br>
-      <button onclick="openYT()">
-GELO 1P ADVANCE TUTORIAL 
-</button>
-
-<br><br>
-
-PvP FAST IMPRESSIVE GLOO WALL:
-
- <br><br>
-      <button onclick="openYT()">
-SIT-UP GLOO TUTORIAL 
-</button>
-
- <button onclick="openYT()">
-360° GLOO TUTORIAL 
-</button>
-
- <button onclick="openYT()">
-TORNADO GLOO TUTORIAL 
-</button>
-  
-  </div></div>
-
-<div class="logo">
-IMPORTANT
-</div>
-
-<div class="card">
-  <div class="info">
-    
-
-THIS SENSITIVITY IS APPROXIMATELY 90% ACCURATE
-<br><br>
-THE REMAINING 10% DEPENDS ON YOUR PRACTICE, TIMING, AND CONSISTENCY
-<br><br>
-NO SENSITIVITY WILL WORK IF YOU KEEP CHANGING YOUR HUD OR SETTINGS
-<br><br>
-APPLY THE RECOMMENDED SETTINGS, STICK WITH THEM, AND PRACTICE REGULARLY FOR THE BEST RESULTS
-
-<br><br>
-
- <button onclick="openYT()">
-BEST 3-4 FINGERS HUD
-</button>
-    
-  </div></div>
-
-<div class="btn-row">
-  <button onclick="backHEADSHOT()">
-BACK
-</button>
-
-<button onclick="openVIVEX()">
-NEXT
-</button>
-
-
-</div>
-</div>
-
-
-<!-- VIVEX PAGE -->
-
+<!-- VIVEX -->
 <div class="page" id="vivex">
+  <div class="logo">DEADLY VIVEX</div>
 
-<div class="logo">
-DEADLY VIVEX
+  <div class="card">
+    SUBSCRIBE ME ON YOUTUBE TO GET OFFERS:
+    <br><br>
+    <button onclick="openYTC()">SUBSCRIBE</button>
+
+    <br><br>
+    <div class="info">
+      <p class="red">LIKE AND COMMENT ON EVERY TUTORIAL FROM SENSI TO GET:</p>
+      FREE SENSI UPDATE AFTER PATCH
+      <br><br>
+      NEW TRICKS WILL BE ADDED FREE FOR YOU IN FUTURE UPDATES.
+      <br><br>
+      NO NEED TO PAY EXTRA CHARGES.
+    </div>
+  </div>
+
+  <button onclick="finish()">FINISH</button>
 </div>
 
-<div class="card">
-  
-    
-    SUBSCRIBE ME ON YOUTUBE TO GET OFFERS:
-    
-    <br><br>
-      <button onclick="openYTC()">
-SUBSCRIBE
-</button>
-
-<br><br>
-
-<div class="info">
-  
-   <p style="color: red;">LIKE AND COMMENT ON EVERY TUTORIAL FROM SENSI TO GET:</p>
-   
-   FREE SENSI UPDATE AFTER PATCH
-   
-   <br><br>
-   NEW TRICKS WILL BE ADDED FREE FOR YOU IN FUTURE UPDATES
-   <br><br>
-   NO NEED TO PAY EXTRA CHARGES
-   
-   
-
-
-</div></div>
-
-<button onclick="finish()">
-FINISH
-</button>
-
-
-
-
-  
 <script>
+"use strict";
 
+// GOOGLE IDENTITY SERVICES
+// The Client ID is public. Never place a Client Secret in frontend HTML.
+const GOOGLE_CLIENT_ID =
+  "830557350336-0vu0heumah8c6spa0ohpcac5pp3p9oqv.apps.googleusercontent.com";
 
-// GOOGLE SIGN-IN SETUP
-// Replace this placeholder with your OAuth 2.0 Web Client ID.
-// Never put your Google Client Secret in this HTML file.
-const GOOGLE_CLIENT_ID = "830557350336-0vu0heumah8c6spa0ohpcac5pp3p9oqv.apps.googleusercontent.com";
+const LOGIN_KEY = "vivex_google_session";
+let googleInitialized = false;
+let googleInitAttempts = 0;
+
+function showPage(pageId) {
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  const page = document.getElementById(pageId);
+  if (page) page.classList.add("active");
+}
+
+function getSavedSession() {
+  try {
+    const value = localStorage.getItem(LOGIN_KEY);
+    if (!value) return null;
+
+    const session = JSON.parse(value);
+
+    if (!session || !session.googleId || !session.email) {
+      localStorage.removeItem(LOGIN_KEY);
+      return null;
+    }
+
+    return session;
+  } catch (error) {
+    return null;
+  }
+}
+
+function showLogin() {
+  if (getSavedSession()) {
+    showPage("panel");
+    return;
+  }
+
+  showPage("login");
+  initializeGoogleLogin();
+}
+
+function backHome() {
+  showPage("home");
+}
 
 function handleGoogleCredential(response) {
-  try {
-    // Decode the credential only to display the account in this front-end demo.
-    // For real access control, send response.credential to a backend and verify it there.
-    const payloadPart = response.credential.split(".")[1];
-    const payload = JSON.parse(atob(payloadPart.replace(/-/g, "+").replace(/_/g, "/")));
-    const email = payload.email || "Google account";
-    const name = payload.name || email;
+  const status = document.getElementById("googleStatus");
 
-    document.getElementById("googleStatus").textContent = "Signed in as " + name + " (" + email + ")";
-    document.getElementById("login").classList.remove("active");
-    document.getElementById("panel").classList.add("active");
-  } catch (err) {
-    document.getElementById("googleStatus").textContent = "Google sign-in failed. Please try again.";
+  try {
+    if (!response || !response.credential) {
+      throw new Error("Missing Google credential");
+    }
+
+    // This decode is for displaying account information only.
+    // It does NOT verify that the Google token is authentic.
+    const parts = response.credential.split(".");
+    if (parts.length !== 3) {
+      throw new Error("Invalid credential");
+    }
+
+    const payloadPart = parts[1];
+    const base64 = payloadPart
+      .replace(/-/g, "+")
+      .replace(/_/g, "/");
+
+    const payload = JSON.parse(
+      atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, "="))
+    );
+
+    if (!payload.email || !payload.sub || payload.email_verified !== true) {
+      throw new Error("Account information unavailable");
+    }
+
+    const session = {
+      email: payload.email,
+      name: payload.name || payload.email,
+      googleId: payload.sub
+    };
+
+    // Remember this browser's selected Google account.
+    localStorage.setItem(LOGIN_KEY, JSON.stringify(session));
+
+    status.textContent = "Welcome, " + session.name;
+    showPage("panel");
+
+  } catch (error) {
+    status.textContent =
+      "Login could not be completed. Please try again.";
   }
 }
 
 function initializeGoogleLogin() {
-  if (!window.google || !google.accounts || !google.accounts.id) {
-    setTimeout(initializeGoogleLogin, 300);
+  if (googleInitialized) return;
+
+  if (!window.google ||
+      !window.google.accounts ||
+      !window.google.accounts.id) {
+    googleInitAttempts++;
+
+    if (googleInitAttempts < 40) {
+      setTimeout(initializeGoogleLogin, 300);
+    } else {
+      document.getElementById("googleStatus").textContent =
+        "Google sign-in failed to load. Check your internet connection.";
+    }
     return;
   }
-  if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith("YOUR_GOOGLE_CLIENT_ID")) {
-    document.getElementById("googleStatus").textContent = "Add your Google Web Client ID to enable Google sign-in.";
-    return;
-  }
+
+  googleInitialized = true;
+
   google.accounts.id.initialize({
     client_id: GOOGLE_CLIENT_ID,
-    callback: handleGoogleCredential
+    callback: handleGoogleCredential,
+    auto_select: false
   });
-  google.accounts.id.renderButton(document.getElementById("googleButton"), {
-    theme: "filled_black",
-    size: "large",
-    shape: "pill",
-    text: "continue_with",
-    width: 260
+
+  const button = document.getElementById("googleButton");
+
+  if (button) {
+    google.accounts.id.renderButton(button, {
+      theme: "filled_black",
+      size: "large",
+      shape: "pill",
+      text: "continue_with",
+      width: 260
+    });
+  }
+}
+
+// Open the panel automatically when this browser has a saved session.
+window.addEventListener("load", function() {
+  if (getSavedSession()) {
+    showPage("panel");
+  }
+
+  initializeGoogleLogin();
+});
+
+// FINISH returns home but keeps the remembered session.
+function finish() {
+  showPage("home");
+}
+
+// YOUTUBE LINKS
+function openYTC() {
+  window.open(
+    "https://youtube.com/@Deadly_ViveX",
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+function openYT() {
+  window.open(
+    "https://youtu.be/iNUWQ-gPEGA?si=BkqwfflLrxn9YhkN",
+    "_blank",
+    "noopener,noreferrer"
+  );
+}
+
+// PAGE NAVIGATION
+function openDPI() {
+  showPage("dpi");
+}
+
+function openFIRE() {
+  showPage("fire");
+}
+
+function openHEADSHOT() {
+  showPage("headshot");
+}
+
+function openGLOO() {
+  showPage("gloo");
+}
+
+function openVIVEX() {
+  showPage("vivex");
+}
+
+function backPANEL() {
+  showPage("panel");
+}
+
+function backDPI() {
+  showPage("dpi");
+}
+
+function backFIRE() {
+  showPage("fire");
+}
+
+function backHEADSHOT() {
+  showPage("headshot");
+}
+
+// RED PARTICLE BACKGROUND
+const canvas = document.getElementById("bg");
+const ctx = canvas.getContext("2d");
+
+let dots = [];
+
+function sizeCanvas() {
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  canvas.width = Math.floor(window.innerWidth * dpr);
+  canvas.height = Math.floor(window.innerHeight * dpr);
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  dots = Array.from({length: 100}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 2
+  }));
+}
+
+window.addEventListener("resize", sizeCanvas);
+sizeCanvas();
+
+function particles() {
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  ctx.fillStyle = "red";
+
+  dots.forEach(dot => {
+    ctx.beginPath();
+    ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    dot.y -= 0.4;
+
+    if (dot.y < 0) {
+      dot.y = window.innerHeight;
+      dot.x = Math.random() * window.innerWidth;
+    }
   });
+
+  requestAnimationFrame(particles);
 }
-
-window.addEventListener("load", initializeGoogleLogin);
-
-function finish(){
-
-document.getElementById("vivex").classList.remove("active");
-document.getElementById("home").classList.add("active");
-document.getElementById("password").value="";
-
-}
-
-function openYTC(){
-    window.open("https://youtube.com/@Deadly_ViveX", "_system");
-}
-
-
-
-function showLogin(){
-
-document.getElementById("home").classList.remove("active");
-
-document.getElementById("login").classList.add("active");
-
-}
-
-
-
-document.querySelectorAll(".key").forEach(function(btn){
-
-btn.onclick=function(){
-
-document.getElementById("password").value += btn.innerText.trim();
-
-}
-
-});
-
-
-
-
-
-function remove(){
-
-let p=document.getElementById("password");
-
-p.value=p.value.slice(0,-1);
-
-}
-
-
-
-
-function confirmPass(){
-
-let p=document.getElementById("password").value;
-
-
-if(p=="VIVEX919821"){
-
-document.getElementById("login").classList.remove("active");
-
-document.getElementById("panel").classList.add("active");
-
-}
-
-else{}
-}
-
-
-
-
-function openDPI(){
-
-document.getElementById("panel").classList.remove("active");
-
-document.getElementById("dpi").classList.add("active");
-
-}
-
-
-function openFIRE(){
-
-document.getElementById("dpi").classList.remove("active");
-
-document.getElementById("fire").classList.add("active");
-
-}
-
-function openYT(){
-    window.open("https://youtu.be/iNUWQ-gPEGA?si=BkqwfflLrxn9YhkN", "_system");
-}
-
-function openHEADSHOT(){
-document.getElementById("fire").classList.remove("active");
-document.getElementById("headshot").classList.add("active");
-}
-
-function openGLOO(){
-
-document.getElementById("headshot").classList.remove("active");
-document.getElementById("gloo").classList.add("active");
-
-}
-
-function openVIVEX(){
-
-document.getElementById("gloo").classList.remove("active");
-document.getElementById("vivex").classList.add("active");
-
-}
-
-function backPANEL(){
-
-document.getElementById("dpi").classList.remove("active");
-document.getElementById("panel").classList.add("active");
-
-}
-
-function backDPI(){
-
-document.getElementById("fire").classList.remove("active");
-document.getElementById("dpi").classList.add("active");
-
-}
-
-function backFIRE(){
-
-document.getElementById("headshot").classList.remove("active");
-document.getElementById("fire").classList.add("active");
-
-}
-
-function backHEADSHOT(){
-
-document.getElementById("gloo").classList.remove("active");
-document.getElementById("headshot").classList.add("active");
-
-}
-
-// PARTICLES
-
-let canvas=document.getElementById("bg");
-
-let ctx=canvas.getContext("2d");
-
-
-function size(){
-
-canvas.width=innerWidth;
-
-canvas.height=innerHeight;
-
-}
-
-size();
-
-window.onresize=size;
-
-
-
-let dots=[];
-
-
-for(let i=0;i<100;i++){
-
-dots.push({
-
-x:Math.random()*canvas.width,
-
-y:Math.random()*canvas.height,
-
-r:Math.random()*2
-
-});
-
-}
-
-
-
-function particles(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height);
-
-ctx.fillStyle="red";
-
-
-dots.forEach(d=>{
-
-
-ctx.beginPath();
-
-ctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-
-ctx.fill();
-
-
-
-d.y-=0.4;
-
-
-if(d.y<0){
-
-d.y=canvas.height;
-
-}
-
-
-});
-
-
-requestAnimationFrame(particles);
-
-}
-
 
 particles();
-
-
 </script>
-
 
 </body>
 </html>
