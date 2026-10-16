@@ -407,8 +407,15 @@ padding:12px;
 
 
 
+
+/* GOOGLE LOGIN */
+.google-login-wrap{width:min(94%,500px);display:flex;flex-direction:column;align-items:center;gap:10px}
+#googleStatus{font-size:11px;line-height:1.5;color:#fff;overflow-wrap:anywhere}
+.google-note{font-size:10px;line-height:1.5;color:#bbb;text-transform:none}
+
 </style>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 
 
@@ -533,6 +540,12 @@ DELETE
 CONFIRM
 </button>
 
+<div class="google-login-wrap">
+  <div style="color:#fff;font-size:12px;margin-top:8px;">OR CONTINUE WITH GOOGLE</div>
+  <div id="googleButton"></div>
+  <div id="googleStatus" role="status"></div>
+  <div class="google-note">Google sign-in setup required. Use your Web Client ID in the script.</div>
+</div>
 
 </div>
 
@@ -1092,6 +1105,52 @@ FINISH
   
 <script>
 
+
+// GOOGLE SIGN-IN SETUP
+// Replace this placeholder with your OAuth 2.0 Web Client ID.
+// Never put your Google Client Secret in this HTML file.
+const GOOGLE_CLIENT_ID = "830557350336-0vu0heumah8c6spa0ohpcac5pp3p9oqv.apps.googleusercontent.com";
+
+function handleGoogleCredential(response) {
+  try {
+    // Decode the credential only to display the account in this front-end demo.
+    // For real access control, send response.credential to a backend and verify it there.
+    const payloadPart = response.credential.split(".")[1];
+    const payload = JSON.parse(atob(payloadPart.replace(/-/g, "+").replace(/_/g, "/")));
+    const email = payload.email || "Google account";
+    const name = payload.name || email;
+
+    document.getElementById("googleStatus").textContent = "Signed in as " + name + " (" + email + ")";
+    document.getElementById("login").classList.remove("active");
+    document.getElementById("panel").classList.add("active");
+  } catch (err) {
+    document.getElementById("googleStatus").textContent = "Google sign-in failed. Please try again.";
+  }
+}
+
+function initializeGoogleLogin() {
+  if (!window.google || !google.accounts || !google.accounts.id) {
+    setTimeout(initializeGoogleLogin, 300);
+    return;
+  }
+  if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.startsWith("YOUR_GOOGLE_CLIENT_ID")) {
+    document.getElementById("googleStatus").textContent = "Add your Google Web Client ID to enable Google sign-in.";
+    return;
+  }
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential
+  });
+  google.accounts.id.renderButton(document.getElementById("googleButton"), {
+    theme: "filled_black",
+    size: "large",
+    shape: "pill",
+    text: "continue_with",
+    width: 260
+  });
+}
+
+window.addEventListener("load", initializeGoogleLogin);
 
 function finish(){
 
